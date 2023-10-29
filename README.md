@@ -2,6 +2,8 @@
 
 A TypeScript mocking library designed to facilitate Google Apps Script development by generating type definitions and providing runtime mocks.
 
+For a full starter-kit for using types with Google Apps Script and svelte, check out https://github.com/thinkle/Google-Apps-Script-Svelte-Starter
+
 Table of Contents
 
 - Installing

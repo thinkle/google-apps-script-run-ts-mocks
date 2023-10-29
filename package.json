@@ -5,7 +5,7 @@
   },
   "types" : "./dist/index.d.ts",  
   "name": "google-apps-script-run-ts-mocks",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
@@ -25,5 +25,9 @@
   },
   "dependencies": {
     "ts-morph": "^20.0.0"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "git+https://github.com/thinkle/google-apps-script-run-ts-mocks"
   }
 }
