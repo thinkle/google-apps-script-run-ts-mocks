@@ -3,11 +3,12 @@
     "add-google-run-mocks":"./dist/code-scanning/add-google-run-mocks.js",
     "add-google-run-types":"./dist/code-scanning/add-google-run-types.js"
   },
+  "types" : "./dist/index.d.ts",  
   "name": "google-apps-script-run-ts-mocks",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "type": "commonjs",
-  "main": "index.js",
+  "type": "module",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build" : "tsc"

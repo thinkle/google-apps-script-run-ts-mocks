@@ -10,7 +10,7 @@ if (!sourcePath || !targetPath) {
   console.log("Missing arguments");
   process.exit(1);
 }
-
+console.log("Checking if we need to add new mocks");
 const apiFunctions = getExportedFunctions(sourcePath);
 const mockApiFunctions = getExportedFunctions(targetPath);
 

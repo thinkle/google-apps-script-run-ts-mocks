@@ -1,1 +1,1 @@
-export const hello = "world";
+export { GoogleMock } from "./mocks/google.script";
