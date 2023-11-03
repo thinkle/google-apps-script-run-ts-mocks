@@ -1,11 +1,12 @@
 {
   "bin" : {
     "add-google-run-mocks":"./dist/code-scanning/add-google-run-mocks.js",
-    "add-google-run-types":"./dist/code-scanning/add-google-run-types.js"
+    "add-google-run-types":"./dist/code-scanning/add-google-run-types.js",
+    "create-client-api":"./dist/code-scanning/create-client-api.js"
   },
   "types" : "./dist/index.d.ts",  
   "name": "google-apps-script-run-ts-mocks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
