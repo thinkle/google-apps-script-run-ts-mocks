@@ -6,7 +6,7 @@
   },
   "types" : "./dist/index.d.ts",  
   "name": "google-apps-script-run-ts-mocks",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
