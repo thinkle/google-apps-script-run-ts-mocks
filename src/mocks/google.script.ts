@@ -22,20 +22,22 @@ class GoogleScriptRunMock {
 
   private runFunction(f: Function, args: any[]) {
     const delay = Math.random() * 1000 + 300;
-    setTimeout(() => this.doRunFunction(f, args), delay);
+    const successCB = this.successCB;
+    const failureCB = this.failureCB;
+    this.successCB = null;
+    this.failureCB = null;
+    setTimeout(() => this.doRunFunction(f, args, successCB, failureCB), delay);
   }
 
-  private doRunFunction(f: Function, args: any[]) {
+  private doRunFunction(f: Function, args: any[], onSuccess, onFailure) {
     try {
       const result = f(...args);
-      if (this.successCB) {
-        this.successCB(result);
-        this.successCB = null;
+      if (onSuccess) {
+        onSuccess(result);
       }
     } catch (e) {
-      if (this.failureCB) {
-        this.failureCB(e);
-        this.failureCB = null;
+      if (onFailure) {
+        onFailure(e);
       }
     }
   }
