@@ -10,7 +10,14 @@ class GoogleScriptRunMock {
   private successCB: Function | null = null;
   private failureCB: Function | null = null;
   private verbose: boolean;
-  [key: string]: ArbitraryFunction | Function | boolean | null;
+  private delayMapping: { [key: string]: [number, number] };
+  [key: string]: ArbitraryFunction | Function | boolean | null | any;
+  setDelayForFunction(fname: string, min: number, max?: number) {
+    if (!max) {
+      max = min * 1.5;
+    }
+    this.delayMapping[fname] = [min, max];
+  }
   withFailureHandler(callback: Function) {
     this.failureCB = callback;
     return this;
@@ -22,7 +29,8 @@ class GoogleScriptRunMock {
   }
 
   private runFunction(f: Function, args: any[]) {
-    const delay = Math.random() * 1000 + 300;
+    const [minDelay, maxDelay] = this.delayMapping[f.name] || [300, 2000];
+    let delay = minDelay + Math.random() * (maxDelay - minDelay);
     const successCB = this.successCB;
     const failureCB = this.failureCB;
     this.successCB = null;
@@ -81,6 +89,7 @@ class GoogleScriptRunMock {
 
   constructor(verbose: boolean) {
     this.verbose = verbose;
+    this.delayMapping = {};
   }
 }
 
@@ -90,6 +99,10 @@ export class GoogleMock {
     host: GoogleScriptHost;
     url: GoogleScriptUrl;
   };
+
+  setDelayForFunction(fname: string, min: number, max?: number) {
+    this.script.run.setDelayForFunction(fname, min, max);
+  }
 
   constructor(mockApi: MockApi, verbose = false) {
     this.script = { run: new GoogleScriptRunMock(verbose), host, url };
