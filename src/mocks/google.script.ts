@@ -9,7 +9,8 @@ type ArbitraryFunction = (...args: any[]) => void;
 class GoogleScriptRunMock {
   private successCB: Function | null = null;
   private failureCB: Function | null = null;
-  [key: string]: ArbitraryFunction | Function | null;
+  private verbose: boolean;
+  [key: string]: ArbitraryFunction | Function | boolean | null;
   withFailureHandler(callback: Function) {
     this.failureCB = callback;
     return this;
@@ -26,16 +27,36 @@ class GoogleScriptRunMock {
     const failureCB = this.failureCB;
     this.successCB = null;
     this.failureCB = null;
+    if (this.verbose) {
+      console.log(
+        `GoogleMock will run function ${f.name} with args ${args} after ${delay}ms`
+      );
+    }
     setTimeout(() => this.doRunFunction(f, args, successCB, failureCB), delay);
   }
 
   private doRunFunction(f: Function, args: any[], onSuccess, onFailure) {
+    if (this.verbose) {
+      console.log(`GoogleMock running function ${f.name} with args ${args}`);
+    }
     try {
       const result = f(...args);
+      if (this.verbose) {
+        console.log(
+          `GoogleMock function ${f.name} returned ${result}, calling`,
+          onSuccess
+        );
+      }
       if (onSuccess) {
         onSuccess(result);
       }
     } catch (e) {
+      if (this.verbose) {
+        console.log(
+          `GoogleMock function ${f.name} threw ${e}, calling`,
+          onFailure
+        );
+      }
       if (onFailure) {
         onFailure(e);
       }
@@ -49,6 +70,10 @@ class GoogleScriptRunMock {
       };
     });
   }
+
+  constructor(verbose: boolean) {
+    this.verbose = verbose;
+  }
 }
 
 export class GoogleMock {
@@ -58,8 +83,8 @@ export class GoogleMock {
     url: GoogleScriptUrl;
   };
 
-  constructor(mockApi: MockApi) {
-    this.script = { run: new GoogleScriptRunMock(), host, url };
+  constructor(mockApi: MockApi, verbose = false) {
+    this.script = { run: new GoogleScriptRunMock(verbose), host, url };
     this.script.run.addMockApi(mockApi);
 
     // TODO: add mock for url
