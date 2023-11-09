@@ -16,7 +16,7 @@ class GoogleScriptRunMock {
     return this;
   }
 
-  withSuccessHandler(callback: Function) {
+  withSuccessHandler(callback: ArbitraryFunction) {
     this.successCB = callback;
     return this;
   }
@@ -29,21 +29,29 @@ class GoogleScriptRunMock {
     this.failureCB = null;
     if (this.verbose) {
       console.log(
-        `GoogleMock will run function ${f.name} with args ${args} after ${delay}ms`
+        `GoogleMock will run function ${f.name} after ${delay}ms with args`,
+        args
       );
     }
     setTimeout(() => this.doRunFunction(f, args, successCB, failureCB), delay);
   }
 
-  private doRunFunction(f: Function, args: any[], onSuccess, onFailure) {
+  private doRunFunction(
+    f: Function,
+    args: any[],
+    onSuccess: Function | null,
+    onFailure: Function | null
+  ) {
     if (this.verbose) {
-      console.log(`GoogleMock running function ${f.name} with args ${args}`);
+      console.log(`GoogleMock running function ${f.name} with args`, args);
     }
     try {
       const result = f(...args);
       if (this.verbose) {
         console.log(
-          `GoogleMock function ${f.name} returned ${result}, calling`,
+          `GoogleMock function ${f.name} returned `,
+          result,
+          ` calling`,
           onSuccess
         );
       }
